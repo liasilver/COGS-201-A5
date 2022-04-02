@@ -1,0 +1,53 @@
+%pick up fox
+action(state(Side,Side,Side3,Side4),  
+       pickup_fox,  
+       state(boat,boat,Side3,Side4)).  
+
+%cross with fox
+action(state(boat,boat,east_side,west_side),
+         cross_fox(Side),  
+         state(Side,Side,east_side,west_side)).  
+
+action(state(boat,boat,west_side,east_side),
+         cross_fox(Side),  
+         state(Side,Side,west_side,east_side)).   
+
+%pick up goose
+action(state(Side,Side2,Side,Side4),  
+       pickup_goose,  
+       state(boat,Side2,boat,Side4)).   
+
+%cross with goose
+action(state(boat,Side2,boat,Side4),  
+       cross_goose(Side),  
+       state(Side,Side2,Side,Side4)).  
+
+%pick up grain
+action(state(Side,Side2,Side3,Side),  
+       pickup_grain,  
+       state(boat,Side2,Side3,boat)). 
+
+%cross with grain
+action(state(boat,east_side,west_side,boat),
+       cross_grain(Side),  
+       state(Side,east_side,west_side,Side)).  
+
+action(state(boat,west_side,east_side,boat),
+       cross_grain(Side),  
+       state(Side,west_side,east_side,Side)). 
+
+%cross alone
+action(state(_,Side2,Side3,Side4),  
+       cross_alone(Side),  
+       state(Side,Side2,Side3,Side4)).  
+
+plan(State,State,[]).  
+plan(State1,Goal,[Action1|RestPlan]):-  
+    action(State1, Action1, State2),  
+    plan(State2, Goal, RestPlan).  
+
+bfirst_plan(Plan) :-  
+
+    append(Plan,_,_),  
+
+    plan(state(west_side,west_side,west_side,west_side), state(east_side,east_side,east_side,east_side), Plan). 
