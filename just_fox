@@ -1,0 +1,23 @@
+%pick up fox
+action(state(Side,Side),  
+       pickup_fox,  
+       state(boat(Side),boat(Side))).  
+%cross with fox
+action(state(boat(Side),boat(Side)),  
+       cross_fox(Side2),  
+       state(boat(Side2),boat(Side2))).  
+%drop fox
+action(state(boat(Side2),boat(Side2)),  
+       drop_fox,  
+       state(Side2,Side2)). 
+
+plan(State,State,[]).  
+plan(State1,Goal,[Action1|RestPlan]):-  
+    action(State1, Action1, State2),  
+    plan(State2, Goal, RestPlan).  
+
+bfirst_plan(Plan) :-  
+
+    append(Plan,_,_),  
+
+    plan(state(west_side,west_side), state(east_side,east_side), Plan). 
