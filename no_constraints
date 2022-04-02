@@ -1,0 +1,111 @@
+% The state of the farmer & her possesions = state(Farmer,Fox,Goose,Grain) shows the location  
+
+% of the farmer, the fox, the goose, and the grain.  
+
+% The farmer can take an Act ion in a State which produces a NewState:  
+
+% action(State, Action, NewState).  
+
+   
+
+  
+
+% pick up fox  
+
+action(state(Side1,Side1,Side2,Side3),  
+
+pickup_fox,  
+
+state(boat,boat,Side2,Side3)).  
+
+   
+
+% pickup goose  
+
+action(state(Side1,Side2,Side1,Side3),  
+
+pickup_goose,  
+
+state(boat,Side2,boat,Side3)).  
+
+   
+
+% pickup grain  
+
+action(state(Side1,Side2,Side3,Side1),  
+
+pickup_grain,  
+
+state(boat,Side2,Side3,boat)).  
+
+   
+
+% cross fox   
+
+action(state(boat,boat,Side3,Side4), 
+
+cross_fox(Side2), 
+
+state(Side2,Side2,Side3,Side4)).  
+
+  
+
+% cross goose   
+
+action(state(boat,Side3,boat,Side4),  
+
+cross_goose(Side1),  
+
+state(Side1,Side3,Side1,Side4)).  
+
+  
+
+% cross grain   
+
+action(state(boat,Side2,Side3,boat), 
+
+cross_grain(Side1),  
+
+state(Side1,Side2,Side3,Side1)).  
+
+  
+
+% cross alone  
+
+action(state(_,Side3,Side4,Side5),  
+
+cross_alone(Side2),  
+
+state(Side2,Side3,Side4,Side5)).  
+
+  
+
+  
+
+  
+
+  
+
+% Plan(Start, Goal, Plan) is true if Plan is a list of actions that will successfully lead from   
+
+% Start to Goal.  
+
+  
+
+plan(State,State,[]).  
+
+plan(State1,Goal,[Action1|RestPlan]):-  
+
+    action(State1, Action1, State2),  
+
+    plan(State2, Goal, RestPlan).  
+
+  
+
+  
+
+bfirst_plan(Plan) :-  
+
+    append(Plan,_,_),  
+
+    plan(state(west_side,west_side,west_side,west_side), state(east_side,east_side,east_side,east_side), Plan). 
